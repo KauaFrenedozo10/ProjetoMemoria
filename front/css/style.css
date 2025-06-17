@@ -1,0 +1,139 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+body {
+    background-color: #ffe6e6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    text-align: center;
+    width: 500px;
+    position: relative;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.quit-btn {
+    background-color: #ff5252;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.heart-game {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    transform: rotate(45deg);
+}
+
+.section {
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.2s;
+}
+
+.section:hover {
+    opacity: 1;
+}
+
+.section.active {
+    opacity: 1;
+    filter: brightness(2.5);
+    box-shadow: 0 0 20px white;
+}
+
+.section.red {
+    background-color: #ff5252;
+    top: 0;
+    left: 0;
+    border-radius: 125px 0 0 0;
+}
+
+.section.blue {
+    background-color: #4285f4;
+    top: 0;
+    right: 0;
+    border-radius: 0 125px 0 0;
+}
+
+.section.green {
+    background-color: #0f9d58;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 0 0 125px;
+}
+
+.section.yellow {
+    background-color: #ffeb3b;
+    bottom: 0;
+    right: 0;
+    border-radius: 0 0 125px 0;
+}
+
+.heart-center {
+    border: none;
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background-color: #ff80ab;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    color: #810e0e;
+}
+
+.heart-center:hover {
+    background-color: #ffd0e0;
+    transition: 0.5s;
+}
+
+@keyframes heartBeat {
+    0% { transform: rotate(45deg) scale(1); }
+    25% { transform: rotate(45deg) scale(1.05); }
+    50% { transform: rotate(45deg) scale(1); }
+    75% { transform: rotate(45deg) scale(1.05); }
+    100% { transform: rotate(45deg) scale(1); }
+}
+
+.level-up {
+    animation: heartBeat 0.8s;
+}
+
+/* SweetAlert2 override para centralizar sem quebrar layout */
+.swal2-container {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+}
+
+.swal2-popup {
+    margin: auto !important;
+}

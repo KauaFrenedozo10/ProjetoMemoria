@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genius</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-info">
+            <div class="level">Nível: <span id="levelNumero" min="1">1</span></div>
+            <div class="score">Pontos: <span>0</span></div>
+            <button class="quit-btn">Sair</button>
+        </div>
+        
+        <div class="heart-game">
+            <div class="section red" data-color="red"></div>
+            <div class="section blue" data-color="blue"></div>
+            <div class="section green" data-color="green"></div>
+            <div class="section yellow" data-color="yellow"></div>
+            <button id="btnInicio" class="heart-center">Iniciar</button>
+        </div>
+    </div>
+</body>
+</html>
