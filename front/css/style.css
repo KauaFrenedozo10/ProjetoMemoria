@@ -1,35 +1,184 @@
+:root {
+    --genius-blue: #1a75ff;
+    --genius-red: #ff3333;
+    --genius-yellow: #ffcc00;
+    --genius-green: #33cc33;
+    --genius-dark: #0c1022;
+    --genius-light: #f8f9fa;
+}
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
     overflow: hidden;
 }
 
 body {
-    background-color: #c9e4ff;
+    background: linear-gradient(135deg, var(--genius-dark), #2c3e50);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+.genius-dots {
+    position: fixed;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.dot {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(5px);
+}
+
+.dot-1 { 
+    width: 150px; height: 150px; 
+    background: var(--genius-blue); 
+    top: 10%; left: 5%;
+    animation: float 15s infinite ease-in-out;
+}
+
+.dot-2 { 
+    width: 120px; height: 120px; 
+    background: var(--genius-red); 
+    top: 70%; left: 80%;
+    animation: float 18s infinite ease-in-out reverse;
+    animation-delay: 2s;
+}
+
+.dot-3 { 
+    width: 100px; height: 100px; 
+    background: var(--genius-yellow); 
+    top: 30%; left: 85%;
+    animation: float 12s infinite ease-in-out;
+    animation-delay: 4s;
+}
+
+.dot-4 { 
+    width: 80px; height: 80px; 
+    background: var(--genius-green); 
+    top: 80%; left: 10%;
+    animation: float 20s infinite ease-in-out reverse;
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(30px, 40px); }
+    50% { transform: translate(60px, 0); }
+    75% { transform: translate(30px, -40px); }
+}
+
+.main-content-wrapper {
+    display: flex;
+    gap: 30px; 
+    align-items: flex-start; 
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    max-width: 1000px; 
+    padding: 20px;
 }
 
 .game-container {
     text-align: center;
-    width: 500px;
-    position: relative;
+    width: 500px; 
+    flex-shrink: 0; 
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.scoreboard-panel {
+    width: 300px; 
+    flex-shrink: 0; 
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    color: var(--genius-light);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.scoreboard-panel h3 {
+    margin-top: 0;
+    color: var(--genius-light);
+    font-size: 1.8em;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+#scoreboardList {
+    max-height: 400px; 
+    overflow-y: auto; 
+    margin-bottom: 15px;
+    padding-right: 5px; 
+}
+
+#scoreboardList ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#scoreboardList li {
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+#scoreboardList li span:first-child {
+    color: var(--genius-yellow); 
+}
+#scoreboardList li span:last-child {
+    color: var(--genius-green); 
+}
+
+.refresh-btn {
+    background-color: var(--genius-blue);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    transition: background-color 0.3s;
+}
+
+.refresh-btn:hover {
+    background-color: #1565e6;
 }
 
 .game-info {
     display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
-    color: #d32f2f;
+    color: var(--genius-light); 
     font-weight: bold;
     font-size: x-large;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
 
 .quit-btn {
-    background-color: #ff5252;
+    background-color: var(--genius-red);
     color: white;
     border: none;
     padding: 5px 15px;
@@ -37,6 +186,11 @@ body {
     cursor: pointer;
     font-weight: bold;
     font-size: x-large;
+    transition: background-color 0.3s;
+}
+
+.quit-btn:hover {
+    background-color: #e62e2e;
 }
 
 .heart-game {
@@ -45,6 +199,9 @@ body {
     height: 250px;
     margin: 0 auto;
     transform: rotate(45deg);
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    border-radius: 20px; 
+    overflow: hidden; 
 }
 
 .section {
@@ -62,33 +219,33 @@ body {
 
 .section.active {
     opacity: 1;
-    filter: brightness(2.5);
-    box-shadow: 0 0 20px white;
+    filter: brightness(1.8); 
+    box-shadow: 0 0 25px var(--genius-light);
 }
 
 .section.red {
-    background-color: #ff5252;
+    background-color: var(--genius-red);
     top: 0;
     left: 0;
     border-radius: 125px 0 0 0;
 }
 
 .section.blue {
-    background-color: #4285f4;
+    background-color: var(--genius-blue);
     top: 0;
     right: 0;
     border-radius: 0 125px 0 0;
 }
 
 .section.green {
-    background-color: #0f9d58;
+    background-color: var(--genius-green);
     bottom: 0;
     left: 0;
     border-radius: 0 0 0 125px;
 }
 
 .section.yellow {
-    background-color: #ffeb3b;
+    background-color: var(--genius-yellow);
     bottom: 0;
     right: 0;
     border-radius: 0 0 125px 0;
@@ -99,17 +256,20 @@ body {
     position: absolute;
     width: 70px;
     height: 70px;
-    background-color: #ff80ab;
+    background-color: var(--genius-light); 
     border-radius: 50%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    color: #810e0e;
+    color: var(--genius-dark); 
+    font-weight: bold;
+    transition: background-color 0.3s;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
 .heart-center:hover {
-    background-color: #ffd0e0;
-    transition: 0.5s;
+    background-color: #e0e0e0;
+    transform: translate(-50%, -50%) rotate(-45deg) scale(1.05); 
 }
 
 @keyframes heartBeat {
@@ -124,7 +284,6 @@ body {
     animation: heartBeat 0.8s;
 }
 
-/* SweetAlert2 override para centralizar sem quebrar layout */
 .swal2-container {
     position: fixed !important;
     inset: 0 !important;
@@ -136,4 +295,56 @@ body {
 
 .swal2-popup {
     margin: auto !important;
+}
+
+@media (max-width: 767.98px) {
+    .main-content-wrapper {
+        flex-direction: column; 
+        gap: 20px;
+        align-items: center;
+        padding: 15px;
+    }
+    .game-container {
+        width: 100%;
+        max-width: 350px; 
+        padding: 20px;
+    }
+    .scoreboard-panel {
+        width: 100%;
+        max-width: 350px;
+        padding: 15px;
+    }
+    .game-info {
+        font-size: large;
+    }
+    .quit-btn {
+        font-size: large;
+        padding: 5px 10px;
+    }
+    .heart-game {
+        width: 200px;
+        height: 200px;
+    }
+    .section {
+        width: 100px;
+        height: 100px;
+    }
+    .heart-center {
+        width: 60px;
+        height: 60px;
+        font-size: medium;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main-content-wrapper {
+        gap: 20px;
+        max-width: 900px;
+    }
+    .game-container {
+        width: 450px;
+    }
+    .scoreboard-panel {
+        width: 280px;
+    }
 }

@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
             try {
-                const response = await axios.post("http://10.110.12.50:5000/jogador/post", jogadorDTO, {
+                const response = await axios.post("http://192.168.56.1:8080/jogadores/cadastro", jogadorDTO, {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 console.log(response.data);
                 form.reset();
+                window.location.href='/Login.html';
             } catch (error) {
                 console.error(error);
                 Swal.fire({

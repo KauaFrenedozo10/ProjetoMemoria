@@ -38,6 +38,31 @@ public class JogadorController {
         return service.listarTodos();
     }
 
+    @GetMapping("/scoreboard")
+    public ResponseEntity<List<Jogador>> getScoreboard() {
+        List<Jogador> jogadores = service.listarTodosOrdenadosPorPontuacao();
+        if (jogadores.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(jogadores);
+    }
+
+    @PatchMapping("/{username}/pontuacao")
+    public ResponseEntity<Jogador> atualizarPontuacao(@PathVariable String username, @RequestBody int novaPontuacao) {
+        Optional<Jogador> jogadorAtualizado = service.atualizarPontuacaoSeMaior(username, novaPontuacao);
+
+        if (jogadorAtualizado.isPresent()) {
+            return ResponseEntity.ok(jogadorAtualizado.get());
+        } else {
+            Optional<Jogador> jogadorExistente = service.buscarPorUsername(username);
+            if (jogadorExistente.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        }
+    }
+
     @DeleteMapping("/{username}")
     public ResponseEntity<Void> deletar(@PathVariable String username) {
         service.deletar(username);

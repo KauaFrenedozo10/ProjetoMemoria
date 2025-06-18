@@ -22,6 +22,10 @@ public class JogadorService {
         return repository.findAll();
     }
 
+    public List<Jogador> listarTodosOrdenadosPorPontuacao() {
+        return repository.findAllByOrderByPontuacaoDesc();
+    }
+
     public Optional<Jogador> buscarPorUsername(String username) {
         return repository.findById(username);
     }
@@ -32,5 +36,18 @@ public class JogadorService {
 
     public Optional<Jogador> autenticar(String username, String senha) {
         return repository.findByUsernameAndSenha(username, senha);
+    }
+
+    public Optional<Jogador> atualizarPontuacaoSeMaior(String username, int novaPontuacao) {
+        Optional<Jogador> jogadorOptional = repository.findById(username);
+
+        if (jogadorOptional.isPresent()) {
+            Jogador jogador = jogadorOptional.get();
+            if (novaPontuacao > jogador.getPontuacao()) {
+                jogador.setPontuacao(novaPontuacao);
+                return Optional.of(repository.save(jogador));
+            }
+        }
+        return Optional.empty();
     }
 }
