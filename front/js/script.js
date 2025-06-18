@@ -3,10 +3,37 @@ let listaDeNumerosSortidos = [];
 let listaDeNumerosUsuario = [];
 let nivelAtual = 1;
 let score = 0;
+const numeroParaCor = {
+  1: 'red',
+  2: 'blue',
+  3: 'green',
+  4: 'yellow',
+};
+const corParaNumero = {
+  red: 1,
+  blue: 2,
+  green: 3,
+  yellow: 4,
+};
 
-const scoreboardListDiv = document.getElementById('scoreboardList');
+function configurar() {
+  let btnInicio = document.getElementById('btnInicio');
+  if (btnInicio) {
+    btnInicio.addEventListener('click', iniciar);
+  }
+  const urlParams = new URLSearchParams(window.location.search);
+  const username = urlParams.get('username');
+  carregarPlacar();
+
+  if (username) {
+    usernameGlobal = username;
+  } else {
+    console.log('Username não encontrado na URL.');
+  }
+}
 
 async function carregarPlacar() {
+  const scoreboardListDiv = document.getElementById('scoreboardList');
   try {
     const response = await axios.get(
       'http://192.168.56.1:8080/jogadores/scoreboard'
@@ -17,39 +44,23 @@ async function carregarPlacar() {
 
     if (jogadoresNoPlacar && jogadoresNoPlacar.length > 0) {
       const ol = document.createElement('ol');
-      jogadoresNoPlacar.forEach((jogador, index) => {
+
+      jogadoresNoPlacar.forEach((jogador) => {
         const li = document.createElement('li');
         li.innerHTML = `<span>${jogador.username}</span>: <span>${jogador.pontuacao}</span> pontos`;
         ol.appendChild(li);
       });
+
       scoreboardListDiv.appendChild(ol);
     } else {
       const t = document.createElement('p');
       t.textContent = 'Nenhum jogador no placar ainda.';
       scoreboardListDiv.appendChild(t);
     }
-  } catch (error) {
-    console.error(
-      'Erro ao carregar o placar:',
-      error.response?.data || error.message
-    );
-    const t = document.createElement('p');
-    t.className = 'error';
-    t.textContent = 'Erro ao carregar placar.';
-    scoreboardListDiv.innerHTML = '';
-    scoreboardListDiv.appendChild(t);
-  }
-}
 
-function iniciar() {
-  listaDeNumerosSortidos = [];
-  listaDeNumerosUsuario = [];
-  nivelAtual = 1;
-  score = 0;
-  atualizarNivel();
-  atualizarScore();
-  desabilitarClicks();
-  mostrarSequencia(0);
+  } catch (error) {
+    console.error('Erro ao carregar o placar');
+  }
 }
 
 function atualizarNivel() {
@@ -66,35 +77,6 @@ function randomizar() {
   return Math.floor(Math.random() * 4) + 1;
 }
 
-function mostrarSequencia(index) {
-  if (index === 0) {
-    listaDeNumerosSortidos.push(randomizar());
-  }
-
-  if (index >= listaDeNumerosSortidos.length) {
-    habilitarClicks();
-    return;
-  }
-
-  let cores = {
-    1: 'red',
-    2: 'blue',
-    3: 'green',
-    4: 'yellow',
-  };
-
-  let corSorteada = cores[listaDeNumerosSortidos[index]];
-  let div = document.querySelector(`.section.${corSorteada}`);
-
-  if (div) {
-    div.classList.add('active');
-    setTimeout(() => {
-      div.classList.remove('active');
-      setTimeout(() => mostrarSequencia(index + 1), 200);
-    }, 350);
-  }
-}
-
 function habilitarClicks() {
   document.querySelectorAll('.section').forEach((div) => {
     div.addEventListener('click', registrarClique);
@@ -107,15 +89,32 @@ function desabilitarClicks() {
   });
 }
 
+function mostrarSequencia(index) {
+  if (index === 0) {
+    listaDeNumerosSortidos.push(randomizar());
+  }
+
+  if (index >= listaDeNumerosSortidos.length) {
+    habilitarClicks();
+    return;
+  }
+
+  let corSorteada = numeroParaCor[listaDeNumerosSortidos[index]];
+  let div = document.querySelector(`.section.${corSorteada}`);
+
+  if (div) {
+    div.classList.add('active');
+    setTimeout(() => {
+      div.classList.remove('active');
+      setTimeout(() => mostrarSequencia(index + 1), 200);
+    }, 350);
+  }
+}
+
+
 function registrarClique(e) {
   let cor = e.target.classList[1];
-  let cores = {
-    red: 1,
-    blue: 2,
-    green: 3,
-    yellow: 4,
-  };
-  let numero = cores[cor];
+  let numero = corParaNumero[cor];
   listaDeNumerosUsuario.push(numero);
 
   e.target.classList.add('active');
@@ -221,21 +220,15 @@ async function checarInputUsuario() {
   }
 }
 
-function configurar() {
-  let btnInicio = document.getElementById('btnInicio');
-  if (btnInicio) {
-    btnInicio.addEventListener('click', iniciar);
-  }
-  const urlParams = new URLSearchParams(window.location.search);
-  const username = urlParams.get('username');
-  carregarPlacar();
-
-  if (username) {
-    usernameGlobal = username;
-    console.log('Bem-vindo ao jogo, ' + username + '!');
-  } else {
-    console.log('Username não encontrado na URL.');
-  }
+function iniciar() {
+  listaDeNumerosSortidos = [];
+  listaDeNumerosUsuario = [];
+  nivelAtual = 1;
+  score = 0;
+  atualizarNivel();
+  atualizarScore();
+  desabilitarClicks();
+  mostrarSequencia(0);
 }
 
 document.addEventListener('DOMContentLoaded', configurar);
